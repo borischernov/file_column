@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "file_column"
   s.version     = FileColumn::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Ben Kittrell"]
-  s.email       = ["ben@garbageburrito.com"]
+  s.authors     = ["Boris Chernov"]
+  s.email       = ["icemedved@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{}
   s.description = %q{}
@@ -18,4 +18,6 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+  
+  s.add_runtime_dependency 'mini_magick'
 end
