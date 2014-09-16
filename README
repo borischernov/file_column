@@ -1,4 +1,4 @@
-Don't use this version
+This is a 
 
 FEATURES
 ========
@@ -24,33 +24,17 @@ end
   uploaded file. Note that you need an Entry object in the instance variable @entry for this
   to work.
 
-* easy integration with RMagick to resize images and/or create thumb-nails.
+* easy integration with mini_magick to resize images and/or create thumb-nails.
 
 USAGE
 =====
 
-Just drop the whole directory into your application's "vendor/plugins" directory. Starting
-with version 1.0rc of rails, it will be automatically picked for you by rails plugin
-mechanism.
+add the fiollowing to the Gemfile:
+
+gem 'file_column', :git => 'git://github.com/borischernov/file_column.git'
+
 
 DOCUMENTATION
 =============
 
 Please look at the rdoc-generated documentation in the "doc" directory.
-
-RUNNING UNITTESTS
-=================
-
-There are extensive unittests in the "test" directory. Currently, only MySQL is supported, but
-you should be able to easily fix this by looking at "connection.rb". You have to create a
-database for the tests and put the connection information into "connection.rb". The schema
-for MySQL can be found in "test/fixtures/mysql.sql".
-
-You can run the tests by starting the "*_test.rb" in the directory "test"
-
-BUGS & FEEDBACK
-===============
-
-Bug reports (as well as patches) and feedback are very welcome. Please send it to
-sebastian.kanthak@muehlheim.de
-
