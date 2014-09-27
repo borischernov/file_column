@@ -90,7 +90,7 @@ module FileColumn # :nodoc:
 
         img.resize(img_options[:size]) if img_options[:size]
 
-        image.write dest_path
+        img.write dest_path
       ensure
         File.chmod options[:permissions], dest_path
       end
