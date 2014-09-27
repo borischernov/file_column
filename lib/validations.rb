@@ -38,7 +38,7 @@ module FileColumn
           unless value.blank?
             mime_extensions = record.send("#{attr}_options")[:mime_extensions]
             extensions = options[:in].map{|o| mime_extensions[o] || o }
-            record.errors.add attr, "is not a valid format." unless extensions.include?(value.downcase.scan(EXT_REGEXP).flatten.first)
+            record.errors.add attr, "is not a valid format." unless extensions.include?(value.scan(EXT_REGEXP).flatten.first)
           end
         end
       
@@ -92,14 +92,14 @@ module FileColumn
         minimums = options[:min].scan(IMAGE_SIZE_REGEXP).first.collect{|n| n.to_i} rescue []
         raise ArgumentError, "Invalid value for option :min (should be 'XXxYY')" unless minimums.size == 2
 
-        require 'mini_magick'
+        require 'RMagick'
 
         validates_each(attrs, options) do |record, attr, value|
           unless value.blank?
             begin
-              img = ::MiniMagick::Image.open(value)
-              record.errors.add('image', "is too small, must be at least #{minimums[0]}x#{minimums[1]}") if ( img[:height] < minimums[1] || img[:width] < minimums[0] )
-            rescue
+              img = ::Magick::Image::read(value).first
+              record.errors.add('image', "is too small, must be at least #{minimums[0]}x#{minimums[1]}") if ( img.rows < minimums[1] || img.columns < minimums[0] )
+            rescue ::Magick::ImageMagickError
               record.errors.add('image', "invalid image")
             end
             img = nil
