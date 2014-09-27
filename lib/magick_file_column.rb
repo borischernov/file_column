@@ -73,33 +73,24 @@ module FileColumn # :nodoc:
         img = orig_image
         
         if img_options[:crop]
-          if defined?(@instance.crop_params) && !@instance.crop_params.blank?
-            img.run_command("mogrify", "-crop", "\"#{@instance.crop_params}\"", "+repage", dest_path)
-          else
-            dx, dy = img_options[:crop].split(':').map { |x| x.to_f }
-            w, h = (img[:height] * dx / dy), (img[:width] * dy / dx)
-            if img[:width] < img[:height] 
-                shave_off = (( 
-                  img[:height]- 
-                  img[:width])/2).round 
-                img.shave("0x#{shave_off}") 
-              elsif img[:width] > img[:height] 
-                shave_off = (( 
-                  img[:width]- 
-                  img[:height])/2).round 
-                img.shave("#{shave_off}x0") 
-              end
-           end
-#          img.crop!(::Magick::CenterGravity, [img[:width], w].min, 
-#                       [img[:height], h].min, true)
+          dx, dy = img_options[:crop].split(':').map { |x| x.to_f }
+          w, h = (img[:height] * dx / dy), (img[:width] * dy / dx)
+          if img[:width] < img[:height] 
+              shave_off = (( 
+                img[:height]- 
+                img[:width])/2).round 
+              img.shave("0x#{shave_off}") 
+            elsif img[:width] > img[:height] 
+              shave_off = (( 
+                img[:width]- 
+                img[:height])/2).round 
+              img.shave("#{shave_off}x0") 
+          end
         end
 
-        if img_options[:size]
-          img.resize(img_options[:size])
-#          img = img.change_geometry(img_options[:size]) do |c, r, i|
-#            i.resize(c, r)
-#          end
-        end
+        img.resize(img_options[:size]) if img_options[:size]
+
+        image.write dest_path
       ensure
         File.chmod options[:permissions], dest_path
       end
