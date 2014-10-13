@@ -76,7 +76,7 @@ module FileColumnHelper
     return nil unless relative_path
 
     store_dir = object.send("#{method}_options")[:store_dir]
-    store_dir = store_dir.is_a?(Symbol) ? object.send(store_dir) : store_dir.to_s.gsub(File.join(Rails.root, 'public/'))
+    store_dir = store_dir.is_a?(Symbol) ? object.send(store_dir) : store_dir.to_s.gsub(File.join(Rails.root, 'public/'), '')
 
     url = ""
     url << "http://#{request.host_with_port}" if absolute
