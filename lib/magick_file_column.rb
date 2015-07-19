@@ -108,17 +108,17 @@ module FileColumn # :nodoc:
               self.send "#{property}=", value
             end
           end
-	  File.chmod options[:permissions], dest_path
-	  begin
-	    if img_options[:after_transform]
-              if img_options[:after_transform].is_a?(Symbol)
-            	img = @instance.send(img_options[:after_transform], dest_path)
-              else
-                img = img_options[:after_transform].call(dest_path)
-              end
+        end
+	File.chmod options[:permissions], dest_path
+	begin
+	  if img_options[:after_transform]
+            if img_options[:after_transform].is_a?(Symbol)
+              img = @instance.send(img_options[:after_transform], dest_path)
+            else
+              img = img_options[:after_transform].call(dest_path)
             end
-          rescue
           end
+        rescue
         end
       end
     end
