@@ -55,7 +55,7 @@ module FileColumn # :nodoc:
           return nil
         end
         dirname = version_options[:name]
-        FileUtils.mkdir File.join(@dir, dirname)
+        FileUtils.mkdir_p File.join(@dir, dirname)
         transform_image(img, version_options, absolute_path(dirname))
       end
 
