@@ -216,11 +216,11 @@ module FileColumn # :nodoc:
   # 
   # == Post-transform hook
   #
-  # You can specify custom post-transformation action (i.e. for image optimization, etc) with post_transform option.
+  # You can specify custom post-transformation action (i.e. for image optimization, etc) with after_transform option.
   # Post-transformation function receives image file path as it's argument.
   #
   #   file_column :image, :magick => {
-  #      :post_transform => Proc.new { |path| ... },
+  #      :after_transform => Proc.new { |path| ... },
   #    }
   # 
   # <b>Note:</b> You'll need the
