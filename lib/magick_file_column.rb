@@ -97,10 +97,10 @@ module FileColumn # :nodoc:
           end
         end
 
-				if img_options[:letterbox]
-					w, h = img_options[:letterbox].split('x').map { |x| x.to_f }
-					img = img.crop((img.columns/2 - w/2), (img.rows/2 - h/2), w, h)
-				end
+	if img_options[:letterbox]
+		w, h = img_options[:letterbox].split('x').map { |x| x.to_f }
+		img = img.crop((img.columns/2 - w/2), (img.rows/2 - h/2), w, h)
+	end
       ensure
         img.write(dest_path) do
           if img_options[:attributes]
@@ -108,8 +108,18 @@ module FileColumn # :nodoc:
               self.send "#{property}=", value
             end
           end
+	  File.chmod options[:permissions], dest_path
+	  begin
+	    if img_options[:after_transform]
+              if img_options[:after_transform].is_a?(Symbol)
+            	img = @instance.send(img_options[:after_transform], dest_path)
+              else
+                img = img_options[:after_transform].call(dest_path)
+              end
+            end
+          rescue
+          end
         end
-        File.chmod options[:permissions], dest_path
       end
     end
   end
@@ -203,7 +213,16 @@ module FileColumn # :nodoc:
   # custom transformation.
   #
   # Of course, custom transformations can be used in versions, as well.
+  # 
+  # == Post-transform hook
   #
+  # You can specify custom post-transformation action (i.e. for image optimization, etc) with post_transform option.
+  # Post-transformation function receives image file path as it's argument.
+  #
+  #   file_column :image, :magick => {
+  #      :post_transform => Proc.new { |path| ... },
+  #    }
+  # 
   # <b>Note:</b> You'll need the
   # RMagick extension being installed  in order to use file_column's
   # imagemagick integration.
